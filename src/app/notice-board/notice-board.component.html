@@ -1,0 +1,129 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card class="notice-dialog">
+    <nb-card-header>Create Notice</nb-card-header>
+    <nb-card-body class="container-fluid">
+      {{ data }}
+      <form [formGroup]="noticeForm">
+        <div class="row top-buffer">
+          <div class="col-2 indicator">Title:</div>
+          <div class="col">
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              shape="semi-round"
+              placeholder="Title for notice board"
+              formControlName="title"
+            />
+          </div>
+        </div>
+        <div class="row top-buffer">
+          <div class="col-2 indicator">Message:</div>
+          <div class="col">
+            <textarea
+              nbInput
+              fullWidth
+              shape="semi-round"
+              placeholder="Message for notice board"
+              formControlName="message"
+            ></textarea>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <div class="row buttons">
+        <div class="col-6">
+          <button nbButton (click)="ref.close()">Close</button>
+        </div>
+        <div class="col-6">
+          <button
+            nbButton
+            status="success"
+            *ngIf="mode === 'create'"
+            (click)="createNotice(ref)"
+            [disabled]="!noticeForm.valid"
+          >
+            Create
+          </button>
+          <button
+            nbButton
+            status="success"
+            *ngIf="mode === 'edit'"
+            (click)="updateNotice(ref)"
+            [disabled]="!noticeForm.valid"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<ng-template #confirmDialog let-data let-ref="dialogRef">
+  <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+    <nb-card-header>Confirmation</nb-card-header>
+    <nb-card-body>{{ data }}</nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col">
+          <button nbButton size="small" (click)="ref.close()">Close</button>
+        </div>
+        <div class="col">
+          <button nbButton size="small" status="danger" (click)="removeNotice(ref)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<nb-card [status]="cardColor" *ngFor="let notice of notices">
+  <nb-card-header status="danger" class="notice-title">{{ notice.title }}</nb-card-header>
+  <nb-card-body>
+    {{ notice.message }}
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col">
+        <i
+          class="far fa-thumbs-up space-between icon"
+          (click)="likeNotice(notice)"
+          *ngIf="!notice.liked"
+        ></i>
+        <i
+          class="fas fa-thumbs-up space-between icon like-icon"
+          *ngIf="notice.liked"
+          (click)="removeLikeFromNotice(notice)"
+        ></i>
+        <span>{{ notice.likesCount }} Likes</span>
+        <i
+          class="far fa-thumbs-down space-between icon"
+          (click)="dislikeNotice(notice)"
+          *ngIf="!notice.disliked"
+        ></i>
+        <i
+          class="fas fa-thumbs-down space-between icon like-icon"
+          *ngIf="notice.disliked"
+          (click)="removeDislikeFromNotice(notice)"
+        ></i>
+        <span>{{ notice.dislikesCount }} Dislikes</span>
+        <div *ngIf="isAdmin" class="action-icon ">
+          <i
+            class="fas fa-trash-alt icon space-between delete-icon"
+            (click)="showDialog(notice, confirmDialog)"
+          ></i>
+          <i class="far fa-edit icon space-between" (click)="editNoticeDialog(dialog, notice)"></i>
+        </div>
+      </div>
+      <div class="col-3 notice-date">
+        {{ notice.creationDate | date: 'medium' }}
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>
+
+<div *ngIf="isAdmin" class="fab" (click)="editNoticeDialog(dialog)">+</div>

@@ -1,0 +1,155 @@
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge" accent="danger">
+  <nb-card-header class="center">CREATE OWNER</nb-card-header>
+  <nb-card-body>
+    <div class="container-fluid">
+      <form [formGroup]="createOwnerForm">
+        <div class="form-group row">
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">Flat No</span></div>
+              <input
+                nbInput
+                type="number"
+                class="form-control"
+                shape="semi-round"
+                formControlName="flatNumber"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Block Name</span>
+              </div>
+              <input
+                nbInput
+                type="text"
+                class="form-control"
+                shape="semi-round"
+                formControlName="blockName"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">Full Name</span></div>
+              <input
+                nbInput
+                type="text"
+                class="form-control"
+                shape="semi-round"
+                formControlName="fullName"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Phone Number</span>
+              </div>
+              <input
+                nbInput
+                type="number"
+                class="form-control"
+                shape="semi-round"
+                formControlName="phoneNumber"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">Email</span></div>
+              <input
+                nbInput
+                type="email"
+                class="form-control"
+                shape="semi-round"
+                formControlName="email"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">Password</span></div>
+              <input
+                nbInput
+                type="password"
+                class="form-control"
+                shape="semi-round"
+                formControlName="password"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row container-fluid">
+      <div class="col">
+        <nb-card>
+          <nb-card-header class="center">PARKING SLOT</nb-card-header>
+          <nb-card-body>
+            <form [formGroup]="createOwnerForm">
+              <div class="form-group row">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Parking Type</span>
+                  </div>
+                  <input
+                    nbInput
+                    type="text"
+                    class="form-control"
+                    shape="semi-round"
+                    formControlName="parkingType"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Parking No</span>
+                  </div>
+                  <input
+                    nbInput
+                    type="text"
+                    class="form-control"
+                    shape="semi-round"
+                    type="number"
+                    formControlName="parkingNumber"
+                  />
+                </div>
+              </div>
+            </form>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer class="center">
+    <button
+      nbButton
+      status="success"
+      hero
+      [disabled]="!createOwnerForm.valid"
+      shape="semi-round"
+      *ngIf="mode === 'edit'"
+      (click)="updateOwner()"
+    >
+      UPDATE
+    </button>
+    <button
+      nbButton
+      status="success"
+      hero
+      [disabled]="!createOwnerForm.valid"
+      shape="semi-round"
+      *ngIf="!(mode === 'edit')"
+      (click)="createOwner()"
+    >
+      REGISTER
+    </button>
+  </nb-card-footer>
+</nb-card>

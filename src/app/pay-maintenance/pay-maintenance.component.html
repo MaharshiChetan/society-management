@@ -1,0 +1,57 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+    <nb-card-header>Confirm payment</nb-card-header>
+    <nb-card-body>{{ data }}</nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col">
+          <button nbButton (click)="ref.close()">Close</button>
+        </div>
+        <div class="col">
+          <button nbButton status="success" (click)="makePayment(ref)">Payment</button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge" accent="success">
+  <nb-card-header>MONTHLY MAINTENANCE</nb-card-header>
+  <nb-card-body class="container-fluid">
+    <div class="paymaintance__box row" *ngFor="let maintenance of maintenanceDetails">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 paymaintance__box--each">
+        <div>
+          <label>Name : </label>
+          <h1>{{ currentUser?.fullName }}</h1>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 paymaintance__box--each">
+        <div>
+          <label>Month : </label>
+          <h1>{{ maintenance?.date }}</h1>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 paymaintance__box--each text-left">
+        <div *ngIf="currentUser?.maintenance">
+          <div *ngIf="!(currentUser?.maintenance)[(maintenance?.key)]">
+            <label>Status : </label>
+            <button (click)="makePaymentDialog(dialog, maintenance)">
+              PAY {{ maintenance.amount }}
+            </button>
+          </div>
+          <div *ngIf="(currentUser?.maintenance)[(maintenance?.key)]">
+            <label>Status :</label>
+            <h1>PAID</h1>
+          </div>
+        </div>
+        <div *ngIf="!currentUser?.maintenance">
+          <label>Status : </label>
+          <button (click)="makePaymentDialog(dialog, maintenance)">
+            PAY {{ maintenance.amount }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,146 @@
+<ng-template #confirmDialog let-data let-ref="dialogRef">
+  <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+    <nb-card-header>Confirmation</nb-card-header>
+    <nb-card-body>{{ data }}</nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col">
+          <button nbButton size="small" (click)="ref.close()">Close</button>
+        </div>
+        <div class="col">
+          <button nbButton size="small" status="danger" (click)="removeRequest(ref)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card class="request-dialog">
+    <nb-card-header>Create request</nb-card-header>
+    <nb-card-body class="container-fluid">
+      {{ data }}
+      <form [formGroup]="requestForm">
+        <div class="row top-buffer">
+          <div class="col-2 indicator">Title:</div>
+          <div class="col">
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              shape="semi-round"
+              placeholder="Title for request"
+              formControlName="title"
+            />
+          </div>
+        </div>
+        <div class="row top-buffer">
+          <div class="col-2 indicator">Message:</div>
+          <div class="col">
+            <textarea
+              nbInput
+              fullWidth
+              shape="semi-round"
+              placeholder="Message for request"
+              formControlName="message"
+            ></textarea>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <div class="row buttons">
+        <div class="col-6">
+          <button nbButton (click)="ref.close()">Close</button>
+        </div>
+        <div class="col-6">
+          <button
+            nbButton
+            status="success"
+            *ngIf="mode === 'create'"
+            (click)="createRequest(ref)"
+            [disabled]="!requestForm.valid"
+          >
+            Create
+          </button>
+          <button
+            nbButton
+            status="success"
+            *ngIf="mode === 'edit'"
+            (click)="updateRequest(ref)"
+            [disabled]="!requestForm.valid"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<div class="row container-fluid">
+  <div class="col" *ngIf="!isAdmin">
+    <nb-card status="success" *ngFor="let request of myRequests">
+      <nb-card-header status="danger" class="request-title">
+        <nb-user size="xlarge" [name]="owner?.fullName" [title]="owner?.email"> </nb-user
+      ></nb-card-header>
+
+      <nb-card-body>
+        <h4>{{ request.title }}</h4>
+        {{ request.message }}
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="action-icon" *ngIf="!isAdmin">
+          <i
+            class="fas fa-trash-alt icon space-between delete-icon"
+            (click)="showDialog(request, confirmDialog)"
+          ></i>
+          <i
+            class="far fa-edit icon space-between"
+            (click)="editRequestDialog(dialog, request)"
+          ></i>
+        </div>
+        <div class="request-date">
+          {{ request.creationDate | date: 'medium' }}
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+  <div class="col" *ngIf="isAdmin">
+    <nb-card status="success" *ngFor="let request of allRequests">
+      <nb-card-header status="danger" class="request-title">
+        <nb-user
+          size="xlarge"
+          [name]="request?.ownerDetail?.fullName"
+          [title]="request?.ownerDetail?.email"
+        >
+        </nb-user
+      ></nb-card-header>
+
+      <nb-card-body>
+        <h4>{{ request.title }}</h4>
+        {{ request.message }}
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="action-icon" *ngIf="!isAdmin">
+          <i
+            class="fas fa-trash-alt icon space-between delete-icon"
+            (click)="showDialog(request, confirmDialog)"
+          ></i>
+          <i
+            class="far fa-edit icon space-between"
+            (click)="editRequestDialog(dialog, request)"
+          ></i>
+        </div>
+        <div class="request-date">
+          {{ request.creationDate | date: 'medium' }}
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+<div *ngIf="!isAdmin" class="fab" (click)="createRequestDialog(dialog)">+</div>

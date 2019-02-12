@@ -1,0 +1,124 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+    <nb-card-header>Create Maintenance</nb-card-header>
+    <nb-card-body>
+      <p>{{ data }}</p>
+      <form [formGroup]="maintenanceForm">
+        <div class="row">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-rupee-sign"></i></span>
+            </div>
+            <input nbInput type="number" formControlName="amount" placeholder="Eg: 500" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+            </div>
+            <input nbInput placeholder="Date" formControlName="date" [nbDatepicker]="formcontrol" />
+            <nb-datepicker #formcontrol></nb-datepicker>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col">
+          <button nbButton size="small" (click)="ref.close()">Close</button>
+        </div>
+        <div class="col">
+          <button
+            nbButton
+            size="small"
+            status="danger"
+            (click)="createMaintenance(ref)"
+            [disabled]="!maintenanceForm.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<button nbButton [nbContextMenu]="items" nbContextMenuTag="date-menu">Change Month</button>
+<nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+  <nb-card-body class="container-fluid">
+    <section class="dashboard__metric row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="dashboard__box">
+          <div class="dashboard__box--color"></div>
+          <h1>{{ owners?.length || 0 }}</h1>
+          <h2>Total Owners</h2>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="dashboard__box">
+          <h1>{{ totalPaid }}</h1>
+          <h2>Total Paid</h2>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="dashboard__box">
+          <h1>{{ totalUnpaid }}</h1>
+          <h2>Total Not Paid</h2>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+        <div class="dashboard__box">
+          <h1>21,000</h1>
+          <h2>Total Payment</h2>
+        </div>
+      </div>
+    </section>
+  </nb-card-body>
+</nb-card>
+<nb-card accent="danger" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+  <nb-card-header>MONTHY MAINTENANCE ( {{ month }} )</nb-card-header>
+
+  <nb-card-body class="container-fluid">
+    <div
+      class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl"
+      *ngIf="owners"
+    >
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">NAME</th>
+            <th scope="col">FLAT NO</th>
+            <th scope="col">PHONE NUMBER</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let owner of owners; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ owner.fullName }}</td>
+            <td>{{ owner.flatNumber }}</td>
+            <td>{{ owner.phoneNumber }}</td>
+            <div *ngIf="owner.maintenance">
+              <td *ngIf="owner.maintenance[maintenanceKey]">PAID</td>
+              <td *ngIf="!owner.maintenance[maintenanceKey]">PENDING</td>
+            </div>
+            <div *ngIf="!owner.maintenance">
+              <td>PENDING</td>
+            </div>
+            <td>
+              <button nbButton hero status="primary" size="xsmall" (click)="sendMessage()">
+                MESSAGE
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
+<div class="fab" (click)="createMaintenanceDialog(dialog)">+</div>

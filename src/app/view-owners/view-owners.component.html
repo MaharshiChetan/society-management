@@ -1,0 +1,78 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="xxlarge">
+    <nb-card-header>Confirmation</nb-card-header>
+    <nb-card-body>{{ data }}</nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col">
+          <button nbButton size="small" (click)="ref.close()">Close</button>
+        </div>
+        <div class="col">
+          <button nbButton size="small" status="danger" (click)="deleteOwner(ref)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<nb-card
+  accent="danger"
+  size="xlarge"
+  [nbSpinner]="loading"
+  nbSpinnerStatus="danger"
+  nbSpinnerSize="xxlarge"
+>
+  <nb-card-header>VIEW OWNERS</nb-card-header>
+  <nb-card-body class="container-fluid">
+    <div
+      class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl"
+      *ngIf="owners"
+    >
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">FLAT NO</th>
+            <th scope="col">NAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">PHONE NUMBER</th>
+            <th scope="col">EDIT</th>
+            <th scope="col">DELETE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let owner of owners; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ owner.flatNumber }}</td>
+            <td>{{ owner.fullName }}</td>
+            <td>{{ owner.email }}</td>
+            <td>{{ owner.phoneNumber }}</td>
+            <td>
+              <button
+                nbButton
+                hero
+                status="primary"
+                size="xsmall"
+                (click)="editOwnerDetails(owner)"
+              >
+                EDIT
+              </button>
+            </td>
+            <td>
+              <button
+                nbButton
+                hero
+                status="danger"
+                size="xsmall"
+                (click)="showDialog(owner, dialog)"
+              >
+                DELETE
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
