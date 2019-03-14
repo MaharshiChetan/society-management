@@ -16,9 +16,6 @@ export class AppComponent implements OnInit {
   admin: boolean;
   authState: boolean = false;
   sideMenuItemsForResident = [
-    { title: 'MY PARKING', icon: 'fas fa-map-marker-alt', link: '/my-parking' },
-    { title: 'SEARCH', icon: 'fas fa-search', link: '/search' },
-    { title: 'MY BOOKING', icon: 'fa fa-star', link: '/booking' },
     { title: 'PAY MAINTENANCE', icon: 'fas fa-money-bill-wave', link: '/pay-maintenance' },
     { title: 'REQUEST', icon: 'far fa-bell', link: '/requests' },
     { title: 'COMPLAINTS', icon: 'fa fa-flag-checkered', link: '/complaints' },
@@ -88,10 +85,10 @@ export class AppComponent implements OnInit {
         const subscription = this.ownerService.getOwnerByUID(state.uid).subscribe((owner: any) => {
           if (owner.admin) {
             this.admin = true;
-            // this._router.navigate(['/dashboard']);
+            this._router.navigate(['/dashboard']);
           } else {
             this.admin = false;
-            // this._router.navigate(['/my-parking']);
+            this._router.navigate(['/pay-maintenance']);
           }
           this.refresh();
         });

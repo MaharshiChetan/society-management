@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
               this.ownerService.createOwnerWithUID(currentUser.user.uid, owner);
               this.showToast('success');
               this.loginForm.reset();
-              this._router.navigate(['/my-parking']);
+              this._router.navigate(['/pay-maintenance']);
             })
             .catch(e => {
               if (e.code === 'auth/email-already-in-use') {
@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit {
                     this.ownerService.createOwnerWithUID(currentUser.user.uid, owner);
                     this.showToast('success');
                     this.loginForm.reset();
-                    this._router.navigate(['/my-parking']);
+                    this._router.navigate(['/pay-maintenance']);
                   })
                   .catch(e => {
                     subscription.unsubscribe();

@@ -14,15 +14,12 @@ import { LoginComponent } from './login/login.component';
 import { NoticeBoardComponent } from './notice-board/notice-board.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { ComplaintsComponent } from './complaints/complaints.component';
-import { MyParkingComponent } from './my-parking/my-parking.component';
 import { PayMaintenanceComponent } from './pay-maintenance/pay-maintenance.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NebularModule } from './nebular/nebular.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NgBootstrapModule } from './ng-bootstrap/ng-bootstrap.module';
-import { SearchComponent } from './search/search.component';
-import { BookingComponent } from './booking/booking.component';
 
 import {
   NbUserModule,
@@ -48,11 +45,8 @@ import { RequestsComponent } from './requests/requests.component';
     NoticeBoardComponent,
     MaintenanceComponent,
     ComplaintsComponent,
-    MyParkingComponent,
     PayMaintenanceComponent,
     SidebarComponent,
-    SearchComponent,
-    BookingComponent,
     CreateOwnerComponent,
     ViewOwnersComponent,
     DashboardComponent,
